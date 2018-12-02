@@ -12,6 +12,7 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.User;
 import org.springframework.stereotype.Component;
 import org.springframework.web.bind.annotation.RequestMapping;
+
 import javax.servlet.http.HttpServletRequest;
 import java.lang.reflect.Method;
 import java.util.Date;
@@ -62,10 +63,14 @@ public class LogAop {
     @After("execution(* com.ylcoder.controller.*.*(..))")
     public void doAfter(JoinPoint jp) {
 
+        //访问查看日志不被记录
+        if ("com.ylcoder.controller.SysLogController".equals(executionClass.getName()) && "findAll".equals(executionMethod.getName())) {
+            return;
+        }
         // 获取访问时长
         Long executionTime = System.currentTimeMillis() - startTime.getTime();
         //url
-        String url="";
+        String url = "";
         //获取url
         if (executionClass != null && executionMethod != null && executionClass != LogAop.class) {
             //获取上的注解
@@ -73,8 +78,8 @@ public class LogAop {
             if (classAnnotation != null) {
                 //获取方法上的注解
                 RequestMapping methodAnnotation = executionMethod.getAnnotation(RequestMapping.class);
-                if(methodAnnotation!= null){
-                    url=classAnnotation.value()[0]+methodAnnotation.value()[0];
+                if (methodAnnotation != null) {
+                    url = classAnnotation.value()[0] + methodAnnotation.value()[0];
                 }
             }
         }
@@ -86,7 +91,7 @@ public class LogAop {
         SecurityContext context = SecurityContextHolder.getContext();
         String username = ((User) (context.getAuthentication().getPrincipal())).getUsername();
 
-        SysLog sysLog=new SysLog();
+        SysLog sysLog = new SysLog();
         sysLog.setIp(ip);
         sysLog.setUrl(url);
         sysLog.setUsername(username);
