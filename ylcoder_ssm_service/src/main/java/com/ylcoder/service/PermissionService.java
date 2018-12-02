@@ -8,4 +8,8 @@ public interface PermissionService {
     List<Permission> findAll();
 
     void save(Permission permission);
+
+    void deleteById(String id);
+
+    void deleteByIds(String[] ids);
 }

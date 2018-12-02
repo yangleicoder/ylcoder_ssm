@@ -1,6 +1,7 @@
 package com.ylcoder.dao;
 
 import com.ylcdoer.domain.Permission;
+import org.apache.ibatis.annotations.Delete;
 import org.apache.ibatis.annotations.Insert;
 import org.apache.ibatis.annotations.Select;
 
@@ -23,4 +24,18 @@ public interface PermissionDao {
      */
     @Select("select * from permission")
     List<Permission> findAll();
+
+    /**
+     * 删除权限表数据
+     * @param id
+     */
+    @Delete("delete from PERMISSION where id=#{id} ")
+    void deleteById(String id);
+
+    /**
+     * 删除中间表数据
+     *  @param id
+     */
+    @Delete("delete from ROLE_PERMISSION where permissionId=#{id}")
+    void deleteRoleAndPerById(String id);
 }

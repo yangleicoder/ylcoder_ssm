@@ -1,0 +1,8 @@
+<component name="ArtifactManager">
+  <artifact type="war" name="ylcoder_ssm_web:war">
+    <output-path>$PROJECT_DIR$/ylcoder_ssm_web/target</output-path>
+    <root id="archive" name="ylcoder_ssm_web.war">
+      <element id="artifact" artifact-name="ylcoder_ssm_web:war exploded" />
+    </root>
+  </artifact>
+</component>
